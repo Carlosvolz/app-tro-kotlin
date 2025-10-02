@@ -3,4 +3,6 @@
     <string name="foto_do_desenvolvedor">Foto do desenvolvedor</string>
     <string name="email_do_desenvolvedor">Email do desenvolvedor</string>
     <string name="github_do_desenvolvedor">Perfil GitHub do desenvolvedor</string>
+    <string name="expand">Expandir</string>
+    <string name="collapse">Recolher</string>
 </resources>

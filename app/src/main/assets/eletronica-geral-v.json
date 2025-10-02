@@ -1,6 +1,6 @@
 {
-    "name": "Eletrônica Geral V",
-    "id": 0,
+    "name_disc": "Eletrônica Geral V",
+    "id": 6,
     "status": "ativo",
     "slug": "eletronica-geral-v",
     "parents": ["eletronica-geral-i", "eletronica-geral-ii", "eletronica-geral-iii", "eletronica-geral-iv", "eletronica-geral-v"],

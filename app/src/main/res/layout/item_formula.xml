@@ -1,37 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="4dp"
-    android:layout_marginVertical="4dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="2dp">
+    android:layout_margin="12dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="6dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardBackgroundColor="?android:attr/colorBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/colorOnSurfaceInverse"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="20dp">
 
-        <!-- Nome da Fórmula -->
-        <TextView
-            android:id="@+id/tv_formula_nome"
+        <!-- Linha 1: Nome da disciplina/fórmula e Status -->
+        <RelativeLayout
+            android:id="@+id/layout_header_formula"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="?android:attr/textColorPrimary"/>
+            android:layout_marginBottom="12dp">
 
-        <!-- Descrição da Fórmula -->
+            <TextView
+                android:id="@+id/tv_formula_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="8dp"
+                android:layout_toStartOf="@+id/tv_expand_status"
+                tools:text="Nome da Fórmula/Disciplina"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_expand_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:drawableEnd="@drawable/ic_arrow_down"
+                android:drawablePadding="4dp"
+                android:gravity="center_vertical"
+                tools:text="Expandir"
+                android:text="@string/expand"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        <!-- Descrição (sempre visível no header, ou mova para dentro do expansível se preferir) -->
         <TextView
-            android:id="@+id/tv_formula_descricao"
+            android:id="@+id/tv_formula_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textSize="14sp"
-            android:textColor="?android:attr/textColorSecondary"/>
+            android:layout_marginBottom="8dp"
+            android:ellipsize="end"
+            android:lineSpacingMultiplier="1.2"
+            android:maxLines="3"
+            tools:text="Descrição da fórmula ou disciplina..."
+            android:textColor="?android:attr/textColorSecondary"
+            android:textSize="14sp" />
 
+        <!-- CONTEÚDO EXPANSÍVEL -->
+        <LinearLayout
+            android:id="@+id/layout_expandable_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <!-- WebView para renderizar a fórmula LaTeX -->
+            <WebView
+                android:id="@+id/webview_latex_formula"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="12dp"
+                android:visibility="gone"
+                tools:visibility="visible"
+                tools:layout_height="50dp"/>
+
+            <!-- Seção de Variáveis -->
+            <TextView
+                android:id="@+id/tv_variables_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Variáveis:"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tv_variables_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="8dp"
+                android:lineSpacingExtra="4dp"
+                android:textColor="?android:attr/textColorSecondary"
+                android:textSize="14sp"
+                android:visibility="gone"
+                tools:text="F: Força (N)\nB: Campo Magnético (T)\nv: Velocidade (m/s)"
+                tools:visibility="visible"/>
+
+            <!-- Separador Opcional -->
+            <View
+                android:id="@+id/separator_variables_constants"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone"
+            tools:visibility="visible"/>
+
+            <!-- Seção de Constantes -->
+            <TextView
+                android:id="@+id/tv_constants_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Constantes:"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+            tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tv_constants_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="8dp"
+                android:lineSpacingExtra="4dp"
+                android:textColor="?android:attr/textColorSecondary"
+                android:textSize="14sp"
+                android:visibility="gone"
+                tools:text="π: Aproximadamente 3.14159\ne: Número de Euler (Aprox. 2.718)"
+                tools:visibility="visible"/>
+
+        </LinearLayout>
     </LinearLayout>
-
-</com.google.android.material.card.MaterialCardView>
+</androidx.cardview.widget.CardView>

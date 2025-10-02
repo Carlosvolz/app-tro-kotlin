@@ -1,6 +1,6 @@
 {
-    "name": "Eletrônica Geral III",
-    "id": 0,
+    "name_disc": "Eletrônica Geral III",
+    "id": 5,
     "status": "ativo",
     "slug": "eletronica-geral-iii",
     "parents": ["eletronica-geral-i", "eletronica-geral-ii", "eletronica-geral-iii", "eletronica-geral-iv", "eletronica-geral-v"],
@@ -19,9 +19,6 @@
             "latex": [
                 "re' = \\frac{25\\,\\text{mV}}{I_E}"
             ],
-            "constants": {
-                "25mV": "Tensão fixa"
-            },
             "variables": {
                 "re'": "Resistência do Diodo Emissor",
                 "IE": "Corrente de Emissor"
@@ -275,3 +272,4 @@
     "deleted_at": null,
     "fileVersion": 2
 }
+

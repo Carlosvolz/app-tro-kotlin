@@ -1,6 +1,6 @@
 {
-    "name": "Eletrônica Digital V",
-    "id": 0,
+    "name_disc": "Eletrônica Digital V",
+    "id": 8,
     "status": "ativo",
     "slug": "eletronica-digital-v",
     "parents": ["eletronica-digital-i", "eletronica-digital-ii", "eletronica-digital-iii", "eletronica-digital-iv", "eletronica-digital-v"],

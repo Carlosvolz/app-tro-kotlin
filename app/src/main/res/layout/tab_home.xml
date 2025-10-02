@@ -5,16 +5,65 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="?attr/colorSurface"
+    tools:context=".HomeTab">
+
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/welcome_home_textview"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Início"
-        android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="@font/audiowide"
+        android:textAppearance="?attr/textAppearanceHeadlineSmall"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Olá, Usuário!" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/search_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
+        app:cardCornerRadius="28dp"
+        app:cardElevation="4dp"
+        app:layout_constraintEnd_toEndOf="@id/welcome_home_textview"
+        app:layout_constraintStart_toStartOf="@id/welcome_home_textview"
+        app:layout_constraintTop_toBottomOf="@id/welcome_home_textview">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/search_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layoutDirection="rtl"
+                app:iconifiedByDefault="false"
+                app:queryHint="Pesquisar conteúdo..."
+                 />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?attr/colorOutlineVariant" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_results"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_search_result" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

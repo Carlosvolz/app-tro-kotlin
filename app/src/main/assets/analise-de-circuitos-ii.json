@@ -1,5 +1,5 @@
 {
-    "name": "Análise de Circuitos II",
+    "name_disc": "Análise de Circuitos II",
     "id": 3,
     "status": "ativo",
     "slug": "analise-de-circuitos-ii",
@@ -326,3 +326,4 @@
     "deleted_at": null,
     "fileVersion": 2
 }
+

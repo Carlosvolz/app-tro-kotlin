@@ -1,0 +1,250 @@
+{
+    "name_disc": "Eletrônica Geral I",
+    "id": 0,
+    "status": "ativo",
+    "slug": "eletronica-geral-i",
+    "parents": ["eletronica-geral-i", "eletronica-geral-ii", "eletronica-geral-iii", "eletronica-geral-iv", "eletronica-geral-v"],
+    "needs": [],
+    "semmester": 3,
+    "course": "eletrônica",
+    "period": "integrado",
+    "description": "Contextualização dos componentes e estudo dos semicondutores, com foco nos tipos de diodo",
+    "content": null,
+    "obs": null,
+    "chapters": [null],
+    "formulas": [
+        {
+            "name": "Corrente do diodo emissor de luz (LED)",
+            "description": "Fórmula para calcular a corrente de um LED",
+            "latex": [
+                "I_{L} = \\frac{(V_{CC} - V_{L})}{R_{L}}"
+            ],
+            "variables": {
+                "Il": "Corrente do led",
+                "Vcc": "Tensão da fonte",
+                "Rl": "Resistência do led"
+            }
+        },
+        {
+            "name": "Máxima potência dissipada pelo zener",
+            "description": "Fórmula para calcular a potência máxima dissipada por um zener",
+            "latex": [
+                "P_{Z} = V_{Z} \\times I_{Z}"
+            ],
+            "variables": {
+                "Pz": "Máxima potência dissipada pelo componente",
+                "Vz": "Tensão reversa",
+                "Iz": "Máxima corrente suportável pelo zener"
+            }
+        },
+        {
+            "name": "Resistor de proteção do zener",
+            "description": "Fórmula para calcular o resistor de proteção com a resistência adequada para a corrente máxima calculada",
+            "latex": [
+                "V_{RZ} = V_{1} - V_{Z}",
+                "R_{Z} = \\frac{V_{RZ}}{I_Z}"
+            ],
+            "variables": {
+                "Vrz": "Tensão reversa do resistor",
+                "Vz": "Tensão reversa",
+                "V1": "Fonte do circuito",
+                "Rz": "Resistor de proteção",
+                "Iz": "Máxima corrente suportável pelo zener"
+            }
+        },
+        {
+            "name": "Tensão de pico a pico",
+            "description": "Fórmula para calcular a tensão de pico a pico (Vpp)",
+            "latex": [
+                "V_{PP} = V_{P} - V_{MÍN}"
+            ],
+            "variables": {
+                "Vpp": "Tensão de pico a pico",
+                "Vp": "Tensão de pico",
+                "Vmín": "Tensão mínima"
+            }
+        },
+        {
+            "name": "Tensão Eficaz (RMS)",
+            "description": "Fórmula para calcular a tensão eficaz ou root mean square (RMS)",
+            "latex": [
+                "V_{RMS} = \\frac{V_{P}}{\\sqrt{2}}"
+            ],
+            "variables": {
+                "Vrms": "Tensão de pico a pico",
+                "Vp": "Tensão de pico",
+                "Vmín": "Tensão mínima"
+            }
+        },
+        {
+            "name": "Relação tensão x espiras",
+            "description": "Fórmula para calcular a relação de tensão x espiras do transformador rebaixador",
+            "latex": [
+                "\\frac{V_{1}}{N_{1}} = \\frac{V_{2}}{N_{2}}"
+            ],
+            "variables": {
+                "V1": "Tensão do primário",
+                "N1": "Número de espiras do primário",
+                "V2": "Tensão do secundário",
+                "N2": "Número de espiras do secundário"
+            }
+        },
+        {
+            "name": "Relação corrente x espiras",
+            "description": "Fórmula para calcular a relação de corrente x espiras do transformador rebaixador",
+            "latex": [
+                "\\frac{I_{1}}{I_{2}} = \\frac{N_{1}}{N_{2}}"
+            ],
+            "variables": {
+                "I1": "Corrente do primário",
+                "I2": "Corrente do secundário",
+                "N1": "Número de espiras do primário",
+                "N2": "Número de espiras do secundário"
+            }
+        },
+        {
+            "name": "Tensão média do retificador de onda completa",
+            "description": "Fórmula para calcular tensão média (Vm) do circuito retificador de onda completa em ponte",
+            "latex": [
+                "V_{M} = 0,636 \\times (V_{P} - 2V_{D})"
+            ],
+            "variables": {
+                "Vm": "Tensão média",
+                "Vp": "Tensão de pico",
+                "Vd": "Tensão do diodo"
+            }
+        },
+        {
+            "name": "Tensão de Ripple (Fórmula Exata)",
+            "description": "Fórmula exata para calcular a variação residual de tensão AC sobre uma tensão DC (tensão de ripple)",
+            "latex": [
+                "V_{R} = V_{P}(1-e^{\\frac{-1}{F \\cdot C \\cdot R_{L}}})"
+            ],
+            "constants": {
+                "e": "Identidade de Euler"
+            },
+            "variables": {
+                "Vr": "Tensão de ripple",
+                "Vp": "Tensão de pico na carga",
+                "F": "Frequência de ondulação",
+                "C": "Capacitância do capacitor de filtro",
+                "Rl": "Resistência da carga"
+            }
+        },
+        {
+            "name": "Tensão de Ripple (Fórmula Aproximada)",
+            "description": "Fórmula para calcular uma boa aproximação da tensão de ripple, serve para casos onde o ripple esteja abaixo de 25% da tensão de pico",
+            "latex": [
+                "V_{R} = \\frac{V_{P}}{F \\times C \\times R_{L}}"
+            ],
+            "variables": {
+                "Vr": "Tensão de ripple",
+                "Vp": "Tensão de pico na carga",
+                "F": "Frequência de ondulação",
+                "C": "Capacitância do capacitor de filtro",
+                "Rl": "Resistência da carga"
+            }
+        }
+    ],
+    "supervisors": [
+        {
+            "name": null,
+            "role": null,
+            "degree": null,
+            "university": null,
+            "campus": null,
+            "course": null,
+            "email": null,
+            "telephone": null,
+            "github": null,
+            "instagram": null,
+            "youtube": null,
+            "whatsapp": null
+        }
+    ],
+    "references": [
+        {
+            "name": "",
+            "url": "",
+            "description": ""
+        }
+    ],
+    "images": [
+        {
+            "name": null,
+            "id": null,
+            "alt": null,
+            "url": null,
+            "source": null,
+            "author": null
+        }
+    ],
+    "tags": [null],
+    "alias": ["egi", "eg1", "eletronica geral", "eg 1", "eg i", "eg-1", "eg-i"],
+    "articleWriters": [
+        {
+            "summary": [
+                {
+                    "name": null,
+                    "roles": [],
+                    "email": null,
+                    "github": null,
+                    "date": null
+                }
+            ],
+            "formulas": [
+                {
+                    "name": null,
+                    "roles": [],
+                    "email": null,
+                    "github": null,
+                    "date": null
+                }
+            ],
+            "json": [
+                {
+                    "name": null,
+                    "roles": [],
+                    "email": null,
+                    "github": null,
+                    "date": null
+                }
+            ]
+        }
+    ],
+    "files": [
+        {
+            "name": null,
+            "id": null,
+            "description": null,
+            "url": null,
+            "fileId": null,
+            "type": null,
+            "source": null,
+            "author": null,
+            "created_at": null,
+            "updated_at": null,
+            "deleted_at": null
+        }
+    ],
+    "embededVideos": [
+        {
+            "name": null,
+            "id": null,
+            "description": null,
+            "url": null,
+            "type": null,
+            "source": null,
+            "author": null,
+            "suggestedBy": null,
+            "created_at": null,
+            "updated_at": null,
+            "deleted_at": null
+        }
+    ],
+    "created_at": null,
+    "updated_at": null,
+    "deleted_at": null,
+    "fileVersion": 2
+}
+

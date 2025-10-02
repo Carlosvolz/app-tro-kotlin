@@ -1,7 +1,7 @@
 package com.example.myapplication.models
 
 data class ArticleWriter(
-    val formulas: List<Formula>,
+    val formulas: List<FormulaX>,
     val json: List<Json>,
     val summary: List<Summary>
 )

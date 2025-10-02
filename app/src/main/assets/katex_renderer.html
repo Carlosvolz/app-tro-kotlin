@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+
+    <link rel="stylesheet" href="katex.min.css">
+    <script defer src="katex.min.js"></script>
+
+    <style>
+        body {
+            margin: 0; /* Removido margin de 8px para melhor controle pelo Android se necessário */
+            padding: 8px; /* Mantido um padding interno */
+            font-size: 1.1em;
+            overflow-x: hidden;
+            background-color: transparent; /* FUNDO TRANSPARENTE POR PADRÃO */
+            /* A cor do texto será definida via JavaScript se a função for chamada */
+        }
+        #formula-container {
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+<div id="formula-container"></div>
+
+<script type="text/javascript">
+    console.log("KaTeX_HTML: Script block started.");
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        if (typeof katex !== 'undefined') {
+            console.log("KaTeX_HTML: KaTeX object IS defined on DOMContentLoaded.");
+        } else {
+            console.warn("KaTeX_HTML: KaTeX object IS NOT defined on DOMContentLoaded. CHECK SCRIPT PATHS AND LOADING.");
+        }
+    });
+
+    // **** NOVA FUNÇÃO PARA DEFINIR A COR DO TEXTO ****
+    function setPageTextColor(colorString) {
+        if (colorString) {
+            document.body.style.color = colorString;
+            console.log("KaTeX_HTML: Cor do texto da página definida para: " + colorString);
+        } else {
+            console.warn("KaTeX_HTML: setPageTextColor chamada com cor nula ou indefinida.");
+        }
+    }
+
+    // Função para definir cor de fundo (opcional, se você quiser controlar dinamicamente)
+    // function setPageBackgroundColor(colorString) {
+    //     if (colorString) {
+    //         document.body.style.backgroundColor = colorString;
+    //         console.log("KaTeX_HTML: Cor de fundo da página definida para: " + colorString);
+    //     }
+    // }
+
+    function displayFormula(latexString) {
+        console.log("KaTeX_HTML: displayFormula called with: \"" + latexString + "\"");
+        const container = document.getElementById('formula-container');
+
+        if (typeof katex === 'undefined') {
+            console.error("KaTeX_HTML: KaTeX is UNDEFINED inside displayFormula! Cannot render.");
+            if (container) {
+                container.innerHTML = "Erro crítico: Biblioteca KaTeX não carregada.<br>String LaTeX: <pre>" + escapeHtml(latexString) + "</pre>";
+            }
+            return;
+        }
+
+        if (container) {
+            try {
+                katex.render(latexString, container, {
+                    throwOnError: false,
+                    displayMode: true,
+                    output: "html" // Assegura a saída HTML, embora seja geralmente o padrão
+                });
+                console.log("KaTeX_HTML: KaTeX render successful for: \"" + latexString + "\"");
+            } catch (e) {
+                container.innerHTML = "Erro ao renderizar LaTeX: " + e.message +
+                                      "<br>String LaTeX: <pre>" + escapeHtml(latexString) + "</pre>";
+                console.error("KaTeX_HTML: KaTeX.render Error:", e);
+                console.error("KaTeX_HTML: Problematic LaTeX string for render error:", latexString);
+            }
+        } else {
+            console.error("KaTeX_HTML: Elemento 'formula-container' não encontrado.");
+        }
+    }
+
+    function clearFormula() {
+        console.log("KaTeX_HTML: clearFormula called.");
+        const container = document.getElementById('formula-container');
+        if (container) {
+            container.innerHTML = '';
+        }
+    }
+
+    function escapeHtml(unsafe) {
+        if (typeof unsafe !== 'string') return '';
+        return unsafe
+             .replace(/&/g, "&amp;")
+             .replace(/</g, "&lt;")
+             .replace(/>/g, "&gt;")
+             .replace(/"/g, "&quot;")
+             .replace(/'/g, "&#039;");
+    }
+
+</script>
+</body>
+</html>
