@@ -174,6 +174,7 @@ class SubjectsTab : Fragment() {
                 "eletricidade-i.json",
                 "eletricidade-ii.json",
                 "eletricidade-iii.json",
+                "eletronica-digital-i.json",
                 "eletronica-digital-ii.json",
                 "eletronica-digital-iv.json",
                 "eletronica-digital-v.json",
