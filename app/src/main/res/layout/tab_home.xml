@@ -21,14 +21,34 @@
             android:paddingBottom="24dp"
             tools:context=".HomeTab">
 
-            <TextView
-                android:id="@+id/welcome_home_textview"
+            <!-- MODIFICAÇÃO: Container para o Título e o Botão de Editar Nome -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:fontFamily="@font/audiowide"
-                android:textAppearance="?attr/textAppearanceHeadlineSmall"
-                tools:text="Olá, Usuário! 💡\nSua próxima aventura te espera." />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/welcome_home_textview"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/audiowide"
+                    android:textAppearance="?attr/textAppearanceHeadlineSmall"
+                    tools:text="Olá, Usuário! 💡\nSua próxima aventura te espera." />
+
+                <ImageButton
+                    android:id="@+id/btn_edit_user_name"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="Editar nome de usuário"
+                    android:src="@drawable/ic_edit"
+                    app:tint="?attr/colorOnSurfaceVariant" />
+
+            </LinearLayout>
+
 
             <!-- Barra de Pesquisa -->
             <androidx.cardview.widget.CardView
@@ -57,8 +77,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="@string/my_favorites"
                 android:fontFamily="@font/audiowide"
+                android:text="@string/my_favorites"
                 android:textAppearance="?attr/textAppearanceTitleMedium"
                 android:textStyle="bold"
                 android:visibility="gone"
@@ -70,16 +90,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:clipToPadding="false"
+                android:fadingEdgeLength="25dp"
                 android:orientation="horizontal"
+                android:requiresFadingEdge="horizontal"
                 android:visibility="gone"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:itemCount="3"
                 tools:listitem="@layout/item_favorite_card"
-                tools:visibility="visible"
-
-                android:requiresFadingEdge="horizontal"
-                android:fadingEdgeLength="25dp" />
-                <!-- As duas linhas acima dão o efeito Fading Edge no scroll -->
+                tools:visibility="visible" />
 
             <!-- TÍTULO DOS ACESSADOS RECENTEMENTE -->
             <TextView
@@ -87,8 +105,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="Últimos Acessos"
                 android:fontFamily="@font/audiowide"
+                android:text="Últimos Acessos"
                 android:textAppearance="?attr/textAppearanceTitleMedium"
                 android:textStyle="bold"
                 android:visibility="gone"
@@ -101,16 +119,52 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:clipToPadding="false"
+                android:fadingEdgeLength="25dp"
                 android:orientation="horizontal"
+                android:requiresFadingEdge="horizontal"
                 android:visibility="gone"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:itemCount="3"
                 tools:listitem="@layout/item_favorite_card"
-                tools:visibility="visible"
+                tools:visibility="visible" />
 
-                android:requiresFadingEdge="horizontal"
-                android:fadingEdgeLength="25dp" />
-                <!-- As duas linhas acima dão o efeito Fading Edge no scroll -->
+            <!-- CARD DE BOAS-VINDAS PARA NOVOS USUÁRIOS -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_welcome_prompt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:visibility="gone"
+                app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                tools:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tudo pronto para começar! 📝"
+                        android:textAppearance="?attr/textAppearanceTitleMedium"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:lineSpacingMultiplier="1.2"
+                        android:text="Explore as disciplinas para encontrar fórmulas e adicione suas favoritas para um acesso rápido aqui."
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
     </ScrollView>
@@ -121,8 +175,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
         android:layout_marginTop="176dp"
+        android:layout_marginEnd="24dp"
         android:visibility="gone"
         app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
         app:cardCornerRadius="16dp"
@@ -144,13 +198,11 @@
                 android:id="@+id/recycler_view_results"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fadingEdgeLength="50dp"
                 android:maxHeight="400dp"
-                tools:itemCount="3"
-                tools:listitem="@layout/item_search_result"
-
                 android:requiresFadingEdge="vertical"
-                android:fadingEdgeLength="50dp" />
-                <!-- As duas linhas acima dão o efeito Fading Edge no scroll -->
+                tools:itemCount="3"
+                tools:listitem="@layout/item_search_result" />
 
         </LinearLayout>
 

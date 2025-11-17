@@ -10,10 +10,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
 import androidx.cardview.widget.CardView
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,8 +31,6 @@ import com.example.myapplication.utils.RecentFormulasManager
 import java.util.Locale
 
 class HomeTab : Fragment() {
-
-
     data class PhrasePair(val phrase: String, val emoji: String)
     private val phrasePairs = listOf(
         PhrasePair("Pronto para aprender algo novo hoje?", "💡"),
@@ -50,18 +52,15 @@ class HomeTab : Fragment() {
         PhrasePair("A teoria conecta com a prática aqui.", "📚"),
         PhrasePair("Aprender também pode ser diversão!", "😄"),
     )
-
     private val searchableList = mutableListOf<SearchableItem>()
     private lateinit var searchAdapter: SearchAdapter
     private val disciplinaReader = DisciplinaJsonReader()
     private lateinit var rvFavoritesCarousel: RecyclerView
     private lateinit var tvFavoritesTitle: TextView
     private var allFormulas: List<FormulaX>? = null
-
-
     private lateinit var rvRecentsCarousel: RecyclerView
     private lateinit var tvRecentsTitle: TextView
-
+    private lateinit var cardWelcomePrompt: CardView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,23 +77,79 @@ class HomeTab : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupGreetingMessage(view)
+
         setupSearch(view)
         setupFavoritesCarousel(view)
-
         setupRecentsCarousel(view)
-
+        cardWelcomePrompt = view.findViewById(R.id.card_welcome_prompt)
     }
 
     override fun onResume() {
         super.onResume()
+        view?.let { setupGreetingMessage(it) }
         displayFavorites()
-
         displayRecents()
-
     }
+    private fun showEditUserNameDialog() {
+        if (!isAdded) return
 
+        // MODIFICAÇÃO: Aplicando o tema com bordas arredondadas
+        val builder = AlertDialog.Builder(requireContext(), R.style.MyRounded_AlertDialog)
+
+        builder.setTitle("Alterar nome de usuário")
+        val input = EditText(requireContext())
+        input.hint = "Digite seu nome"
+        val sharedPreferences = requireActivity().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val currentName = sharedPreferences.getString("user_name", "")
+        input.setText(currentName)
+        builder.setView(input)
+        builder.setPositiveButton("Salvar") { dialog, _ ->
+            val newName = input.text.toString().trim()
+            if (newName.isNotEmpty()) {
+                // Salva o novo nome
+                sharedPreferences.edit().putString("user_name", newName).apply()
+                // Atualiza a UI imediatamente
+                view?.let { setupGreetingMessage(it) }
+                Toast.makeText(requireContext(), "Nome atualizado!", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "O nome não pode ser vazio.", Toast.LENGTH_SHORT).show()
+            }
+            dialog.dismiss()
+        }
+
+        // Configura o botão "Cancelar"
+        builder.setNegativeButton("Cancelar") { dialog, _ ->
+            dialog.cancel()
+        }
+
+        val dialog = builder.create()
+
+        // Desabilita o botão Salvar se o campo estiver vazio
+        dialog.setOnShowListener {
+            val positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            positiveButton.isEnabled = input.text.toString().trim().isNotEmpty()
+
+            input.addTextChangedListener { text ->
+                positiveButton.isEnabled = text.toString().trim().isNotEmpty()
+            }
+        }
+
+        dialog.show()
+    }
+    private fun updateEmptyStateUI() {
+        val areFavoritesVisible = rvFavoritesCarousel.visibility == View.VISIBLE
+        val areRecentsVisible = rvRecentsCarousel.visibility == View.VISIBLE
+
+        if (!areFavoritesVisible && !areRecentsVisible) {
+            cardWelcomePrompt.visibility = View.VISIBLE
+        } else {
+            cardWelcomePrompt.visibility = View.GONE
+        }
+    }
     private fun setupGreetingMessage(view: View) {
         val welcomeTextView = view.findViewById<TextView>(R.id.welcome_home_textview)
+        val btnEditName = view.findViewById<ImageButton>(R.id.btn_edit_user_name) // Pega a referência do botão
+
         val sharedPreferences =
             requireActivity().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         val userName = sharedPreferences.getString("user_name", "Usuário") ?: "Usuário"
@@ -107,8 +162,12 @@ class HomeTab : Fragment() {
         val endIndex = fullText.length
         spannableString.setSpan(sizeSpan, startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         welcomeTextView.text = spannableString
-    }
 
+        // Configura o clique do botão para chamar o diálogo
+        btnEditName.setOnClickListener {
+            showEditUserNameDialog()
+        }
+    }
     private fun setupSearch(view: View) {
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_results)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -134,7 +193,7 @@ class HomeTab : Fragment() {
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
     }
 
-       private fun setupRecentsCarousel(view: View) {
+    private fun setupRecentsCarousel(view: View) {
         tvRecentsTitle = view.findViewById(R.id.tv_recents_title)
         rvRecentsCarousel = view.findViewById(R.id.rv_recents_carousel)
         rvRecentsCarousel.layoutManager =
@@ -144,11 +203,12 @@ class HomeTab : Fragment() {
     private fun displayRecents() {
         if (!isAdded) return
 
-          val recentFormulaIds = RecentFormulasManager.getRecentFormulas(requireContext())
+        val recentFormulaIds = RecentFormulasManager.getRecentFormulas(requireContext())
 
-          if (recentFormulaIds.isEmpty() || allFormulas == null) {
+        if (recentFormulaIds.isEmpty() || allFormulas == null) {
             tvRecentsTitle.visibility = View.GONE
             rvRecentsCarousel.visibility = View.GONE
+            updateEmptyStateUI()
             return
         }
 
@@ -166,6 +226,8 @@ class HomeTab : Fragment() {
             tvRecentsTitle.visibility = View.GONE
             rvRecentsCarousel.visibility = View.GONE
         }
+
+        updateEmptyStateUI()
     }
 
     private fun displayFavorites() {
@@ -180,11 +242,13 @@ class HomeTab : Fragment() {
             tvFavoritesTitle.visibility = View.GONE
             rvFavoritesCarousel.visibility = View.GONE
             Log.d("HomeTab_Favorites", "Nenhum favorito encontrado")
+            updateEmptyStateUI()
             return
         }
 
         if (allFormulas == null) {
             Log.e("HomeTab_Display", "A lista 'allFormulas' ainda está nula.")
+            updateEmptyStateUI()
             return
         }
 
@@ -193,7 +257,7 @@ class HomeTab : Fragment() {
             Log.d("HomeTab_Favorites", "Nome: '${formula.name}', ID Único: '${formula.getUniqueId()}'")
         }
 
-       val favoriteFormulaObjects = favoriteIds.mapNotNull { favoriteId ->
+        val favoriteFormulaObjects = favoriteIds.mapNotNull { favoriteId ->
             allFormulas!!.find { formula ->
                 formula.getUniqueId() == favoriteId
             }
@@ -210,6 +274,7 @@ class HomeTab : Fragment() {
             tvFavoritesTitle.visibility = View.GONE
             rvFavoritesCarousel.visibility = View.GONE
             Log.w("HomeTab_Favorites", "Nenhuma fórmula correspondeu aos IDs salvos!")
+            updateEmptyStateUI()
             return
         }
 
@@ -218,6 +283,7 @@ class HomeTab : Fragment() {
 
         val carouselAdapter = FavoritesCarouselAdapter(requireContext(), favoriteFormulaObjects)
         rvFavoritesCarousel.adapter = carouselAdapter
+        updateEmptyStateUI()
     }
 
     private fun loadAllContentFromAssets() {
